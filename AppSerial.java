@@ -1,8 +1,8 @@
 public class AppSerial{
 
-	public static void main(String args[]){
+  public static void main(String args[]){
 
-	  double [][]dados = new double[10000][10000];
+    double [][]dados = new double[10000][10000];
 
     for(int i = 0; i < dados.length; i++)
       for(int j = 0; j < dados[0].length; j++)
