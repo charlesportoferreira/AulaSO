@@ -1,15 +1,15 @@
 public class AppParalelo2{
 
-	public static void main(String args[]){
+  public static void main(String args[]){
 
-	 double [][]dados = new double[10000][10000];
-   Worker2 w1 = new Worker2(dados, 0, 5000);
-   Worker2 w2 = new Worker2(dados, 5000, dados.length);
-   Thread t1 = new Thread(w1);
-   Thread t2 = new Thread(w2);
+    double [][]dados = new double[10000][10000];
+    Worker2 w1 = new Worker2(dados, 0, 5000);
+    Worker2 w2 = new Worker2(dados, 5000, dados.length);
+    Thread t1 = new Thread(w1);
+    Thread t2 = new Thread(w2);
 
-   t1.start();
-   t2.start();
+    t1.start();
+    t2.start();
 	 
     try{
       t1.join();
