@@ -1,28 +1,39 @@
+import java.util.List;
+import java.util.ArrayList;
+
 public class AppParalelo2{
 
   public static void main(String args[]){
+    int numColumns = 10000;
+    int numCPUs = Integer.parseInt(args[0]);
+    double [][]dados = new double[numColumns][numColumns];
+    int chunk = numColumns/numCPUs;  
 
-    double [][]dados = new double[10000][10000];
-    Worker2 w1 = new Worker2(dados, 0, 5000);
-    Worker2 w2 = new Worker2(dados, 5000, dados.length);
-    Thread t1 = new Thread(w1);
-    Thread t2 = new Thread(w2);
+    int start = 0;
+    int end = chunk;
+    List<Thread> threads = new ArrayList<>();
 
-    t1.start();
-    t2.start();
-	 
-    try{
-      t1.join();
-      t2.join();
-    }catch(Exception ex){
-      System.out.println("Algo errado ocorreu");
+    for(int i = 0; i < numCPUs; i++){
+      threads.add(new Thread(new Worker2(dados,start,end)));
+      threads.get(i).start();
+      start = end;
+      end += chunk;
     }
-  
+
+    try{
+      for(Thread t: threads){
+        t.join();
+      }
+    }catch(Exception ex){
+      System.out.println("Bad code...");
+    }
+
+    // checking the values with a simple sum
     double soma = 0;
     for(int i = 0; i < dados.length; i++)
       for(int j = 0; j < dados[0].length; j++)
         soma+= dados[i][j];
-  
+
     System.out.println(soma);
   }
 }
